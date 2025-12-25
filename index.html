@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>视频转 3D 风格</title>
+</head>
+<body>
+  <h2>动态漫 → 3D 卡通风格</h2>
+  <input type="file" id="video" accept="video/mp4" />
+  <br><br>
+  <button onclick="upload()">开始生成</button>
+  <p id="status"></p>
+
+  <script>
+    async function upload() {
+      const file = document.getElementById("video").files[0];
+      if (!file) return alert("请上传视频");
+
+      document.getElementById("status").innerText = "处理中，请稍等…";
+
+      const res = await fetch("/api/run", {
+        method: "POST",
+        body: file
+      });
+
+      const data = await res.json();
+      document.getElementById("status").innerHTML =
+        `<a href="${data.output}" target="_blank">下载生成的视频</a>`;
+    }
+  </script>
+</body>
+</html>
